@@ -1,26 +1,15 @@
 'use strict';
 
 var TYPE_OF_PLACE = ['palace', 'flat', 'house', 'bungalo'];
-var AUTHORS_QUANTITY = 8;
 var MIN_X = 0;
 var MAX_X = 600;
 var MIN_Y = 130;
 var MAX_Y = 630;
 
-
 //функция поиска случайного числа
 var getRandomItem = function (array) {
   var rand = Math.floor(Math.random() * array.length);
   return array[rand];
-};
-
-// создание массива номеров
-var getAuthorNumbers = function(AUTHORS_QUANTITY) {
-  var authorNumbers = [];
-  for (var i = 1; i <= AUTHORS_QUANTITY; i++) {
-    authorNumbers[i] = '0' + 'i';
-  }
-  return authorNumbers;
 };
 
 // функция поиска случайного числа в интервале
@@ -34,7 +23,7 @@ var getObjects = function(quantity) {
   for (var i = 0; i < quantity; i++ ) {
     objects[i] = {
       author: {
-        avatar: 'img/avatars/user' + 'getRandomItem(getAuthorNumbers)' + '.png'
+        avatar: 'img/avatars/user0' + (i + 1) + '.png'
       },
       offer: {
         type: getRandomItem(TYPE_OF_PLACE)
@@ -56,7 +45,7 @@ var mapPins = document.querySelector('.map__pins');
 
 var pinTemplate = document.querySelector('#pin')
     .content
-    .querySelector('.pin');
+    .querySelector('button');
 
 var mapPin = function (pin) {
   var pinElement = pinTemplate.cloneNode(true);
@@ -76,7 +65,6 @@ var renderPin = function (objects) {
   }
   mapPins.appendChild(fragment);
 };
-
 
 var objectsNumber = getObjects(8);
 renderPin(objectsNumber);
