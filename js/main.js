@@ -6,21 +6,21 @@ var MAX_X = 600;
 var MIN_Y = 130;
 var MAX_Y = 630;
 
-//функция поиска случайного числа
+// функция поиска случайного числа
 var getRandomItem = function (array) {
   var rand = Math.floor(Math.random() * array.length);
   return array[rand];
 };
 
 // функция поиска случайного числа в интервале
-var getRandomFromInterval = function(min, max) {
-  return Math.floor(Math.random()*(max-min+1)+min);
+var getRandomFromInterval = function (min, max) {
+  return Math.floor(Math.random() * (max - min + 1) + min);
 };
 
 // создаем массив объектов
-var getObjects = function(quantity) {
+var getObjects = function (quantity) {
   var objects = [];
-  for (var i = 0; i < quantity; i++ ) {
+  for (var i = 0; i < quantity; i++) {
     objects[i] = {
       author: {
         avatar: 'img/avatars/user0' + (i + 1) + '.png'
@@ -32,7 +32,7 @@ var getObjects = function(quantity) {
         x: getRandomFromInterval(MIN_X, MAX_X),
         y: getRandomFromInterval(MIN_Y, MAX_Y)
       }
-    }
+    };
   }
   return objects;
 };
@@ -50,8 +50,8 @@ var pinTemplate = document.querySelector('#pin')
 var mapPin = function (pin) {
   var pinElement = pinTemplate.cloneNode(true);
 
-  pinElement.querySelector('.map__pin').style.left = pin.location.x + 20;
-  pinElement.querySelector('.map__pin').style.top = pin.location.y + 40;
+  pinElement.style.left = pin.location.x + 20 + 'px';
+  pinElement.style.top = pin.location.y + 40 + 'px';
   pinElement.querySelector('img').src = pin.author.avatar;
   pinElement.querySelector('img').alt = pin.offer.type;
 
@@ -61,7 +61,7 @@ var mapPin = function (pin) {
 var renderPin = function (objects) {
   var fragment = document.createDocumentFragment();
   for (var i = 0; i < objects.length; i++) {
-    fragment.appendChild(renderPin(objects[i]));
+    fragment.appendChild(mapPin(objects[i]));
   }
   mapPins.appendChild(fragment);
 };
