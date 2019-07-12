@@ -2,15 +2,19 @@
 
 var TYPE_OF_PLACE = ['palace', 'flat', 'house', 'bungalo'];
 var MIN_X = 0;
-var MAX_X = 600;
+var MAX_X = 1200;
 var MIN_Y = 130;
 var MAX_Y = 630;
+var MPM_WIDTH = 65;
+var MPM_HEIGHT = 65;
+var NUMBER_OF_PINS = 8;
 
-// функция поиска случайного числа
-var getRandomItem = function (array) {
-  var rand = Math.floor(Math.random() * array.length);
-  return array[rand];
-};
+var mapPins = document.querySelector('.map__pins');
+var adForm = document.querySelector('.ad-form');
+var adFormFieldsets = adForm.querySelectorAll('fieldset');
+var mapPinMain = document.querySelector('.map__pin--main');
+var addressInput = document.querySelector('input[name=address]');
+var map = document.querySelector('.map');
 
 // функция поиска случайного числа в интервале
 var getRandomFromInterval = function (min, max) {
@@ -26,7 +30,7 @@ var getObjects = function (quantity) {
         avatar: 'img/avatars/user0' + (i + 1) + '.png'
       },
       offer: {
-        type: getRandomItem(TYPE_OF_PLACE)
+        type: getRandomFromInterval(TYPE_OF_PLACE[0], TYPE_OF_PLACE.length - 1)
       },
       location: {
         x: getRandomFromInterval(MIN_X, MAX_X),
@@ -37,16 +41,11 @@ var getObjects = function (quantity) {
   return objects;
 };
 
-// remove class .map--faded
-var map = document.querySelector('.map');
-map.classList.remove('map--faded');
-
-var mapPins = document.querySelector('.map__pins');
-
 var pinTemplate = document.querySelector('#pin')
     .content
     .querySelector('button');
 
+// создаем элемент с помощью клонирования исходного образца
 var mapPin = function (pin) {
   var pinElement = pinTemplate.cloneNode(true);
 
@@ -58,6 +57,7 @@ var mapPin = function (pin) {
   return pinElement;
 };
 
+// функция создает и добавляет фрагмент из объектов
 var renderPin = function (objects) {
   var fragment = document.createDocumentFragment();
   for (var i = 0; i < objects.length; i++) {
@@ -66,5 +66,56 @@ var renderPin = function (objects) {
   mapPins.appendChild(fragment);
 };
 
-var objectsNumber = getObjects(8);
-renderPin(objectsNumber);
+// создаем заданное количество меток
+var renderPins = function () {
+  var objectsNumber = getObjects(NUMBER_OF_PINS);
+  renderPin(objectsNumber);
+};
+
+// добавление атрибута disabled для филдсетов
+var setFieldsetDisabled = function () {
+  for (var i = 0; i < adFormFieldsets.length; i++) {
+    adFormFieldsets[i].setAttribute('disabled', 'disabled');
+  }
+};
+setFieldsetDisabled();
+
+// удаление атрибута disabled для филдсетов
+var removeFieldsetDisabled = function () {
+  for (var i = 0; i < adFormFieldsets.length; i++) {
+    adFormFieldsets[i].removeAttribute('disabled', 'disabled');
+  }
+};
+
+// определяем координаты пина в неактивном режиме
+// переносим данные в инпут адреса
+var locX = mapPinMain.offsetLeft + Math.ceil(MPM_WIDTH / 2);
+var locY = mapPinMain.offsetTop + Math.ceil(MPM_HEIGHT / 2);
+addressInput.value = locX + ',' + locY;
+
+// заполнение инпута адреса данными в зависимости от положения пина
+var fillAddressInput = function (x, y) {
+  addressInput.value = x + ',' + y;
+};
+
+// активизация страницы
+var activateMap = function () {
+  map.classList.remove('map--faded');
+
+  adForm.classList.remove('ad-form--disabled');
+
+  removeFieldsetDisabled();
+};
+
+var isMainPinHaveClick = true;
+
+// переводим страницу Букинга в активный режим по клику на метку
+mapPinMain.addEventListener('click', function (evt) {
+  if (isMainPinHaveClick) {
+    isMainPinHaveClick = false;
+    activateMap();
+    renderPins();
+  }
+
+  fillAddressInput(evt.pageX, evt.pageY);
+});
