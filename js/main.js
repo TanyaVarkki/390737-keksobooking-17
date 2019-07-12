@@ -2,11 +2,13 @@
 
 var TYPE_OF_PLACE = ['palace', 'flat', 'house', 'bungalo'];
 var MIN_X = 0;
-var MAX_X = 600;
+var MAX_X = 1200;
 var MIN_Y = 130;
 var MAX_Y = 630;
 var MPM_WIDTH = 65;
 var MPM_HEIGHT = 65;
+var NUMBER_OF_PINS = 8;
+var PINS = false;
 
 var mapPins = document.querySelector('.map__pins');
 var adForm = document.querySelector('.ad-form');
@@ -66,35 +68,60 @@ var renderPin = function (objects) {
 };
 
 // добавление атрибута disabled для филдсетов
-var setDisabled = function () {
+var setFieldsetDisabled = function () {
   for (var i = 0; i < adFormFieldsets.length; i++) {
     adFormFieldsets[i].setAttribute('disabled', 'disabled');
   }
 };
-setDisabled();
+setFieldsetDisabled();
+
+// удаление атрибута disabled для филдсетов
+var removeFieldsetDisabled = function () {
+  for (var i = 0; i < adFormFieldsets.length; i++) {
+    adFormFieldsets[i].removeAttribute('disabled', 'disabled');
+  }
+};
 
 // определяем координаты пина в неактивном режиме
+// переносим данные в инпут адреса
 var locX = mapPinMain.offsetLeft + Math.ceil(MPM_WIDTH / 2);
 var locY = mapPinMain.offsetTop + Math.ceil(MPM_HEIGHT / 2);
 addressInput.value = locX + ',' + locY;
 
-// переводим страницу Букинга в активный режим по клику на метку
-mapPinMain.addEventListener('click', function (evt) {
+// заполнение инпета адреса данными в зависимости от положения пина
+var fillAddressInput = function(evt) {
+  var lastX = evt.pageX;
+  var lastY = evt.pageY;
+  addressInput.value = lastX + ',' + lastY;
+};
+
+// активизация страницы
+var activateMap = function () {
   map.classList.remove('map--faded');
 
   adForm.classList.remove('ad-form--disabled');
 
-  var removeDisabled = function () {
-    for (var i = 0; i < adFormFieldsets.length; i++) {
-      adFormFieldsets[i].removeAttribute('disabled', 'disabled');
-    }
+  removeFieldsetDisabled();
+};
+
+// переводим страницу Букинга в активный режим по клику на метку
+mapPinMain.addEventListener('click', function (evt) {
+  activateMap();
+
+  // проверка на наличие пинов, если есть - то удаляем старые, рисуем новые,
+
+  var flag = false;
+
+  // создаем заданное количество меток
+  var renderPins = function() {
+    flag = true;
+    var objectsNumber = getObjects(NUMBER_OF_PINS);
+    renderPin(objectsNumber);
   };
-  removeDisabled();
 
-  var objectsNumber = getObjects(8);
-  renderPin(objectsNumber);
+  if (flag) {
+    mapPins.removeChild(fragment);
+  }
 
-  var lastX = evt.pageX;
-  var lastY = evt.pageY;
-  addressInput.value = lastX + ',' + lastY;
+  fillAddressInput(evt);
 });
