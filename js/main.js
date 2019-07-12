@@ -8,7 +8,6 @@ var MAX_Y = 630;
 var MPM_WIDTH = 65;
 var MPM_HEIGHT = 65;
 var NUMBER_OF_PINS = 8;
-var PINS = false;
 
 var mapPins = document.querySelector('.map__pins');
 var adForm = document.querySelector('.ad-form');
@@ -67,6 +66,12 @@ var renderPin = function (objects) {
   mapPins.appendChild(fragment);
 };
 
+// создаем заданное количество меток
+var renderPins = function () {
+  var objectsNumber = getObjects(NUMBER_OF_PINS);
+  renderPin(objectsNumber);
+};
+
 // добавление атрибута disabled для филдсетов
 var setFieldsetDisabled = function () {
   for (var i = 0; i < adFormFieldsets.length; i++) {
@@ -88,11 +93,9 @@ var locX = mapPinMain.offsetLeft + Math.ceil(MPM_WIDTH / 2);
 var locY = mapPinMain.offsetTop + Math.ceil(MPM_HEIGHT / 2);
 addressInput.value = locX + ',' + locY;
 
-// заполнение инпета адреса данными в зависимости от положения пина
-var fillAddressInput = function(evt) {
-  var lastX = evt.pageX;
-  var lastY = evt.pageY;
-  addressInput.value = lastX + ',' + lastY;
+// заполнение инпута адреса данными в зависимости от положения пина
+var fillAddressInput = function (x, y) {
+  addressInput.value = x + ',' + y;
 };
 
 // активизация страницы
@@ -104,24 +107,15 @@ var activateMap = function () {
   removeFieldsetDisabled();
 };
 
+var isMainPinHaveClick = true;
+
 // переводим страницу Букинга в активный режим по клику на метку
 mapPinMain.addEventListener('click', function (evt) {
-  activateMap();
-
-  // проверка на наличие пинов, если есть - то удаляем старые, рисуем новые,
-
-  var flag = false;
-
-  // создаем заданное количество меток
-  var renderPins = function() {
-    flag = true;
-    var objectsNumber = getObjects(NUMBER_OF_PINS);
-    renderPin(objectsNumber);
-  };
-
-  if (flag) {
-    mapPins.removeChild(fragment);
+  if (isMainPinHaveClick) {
+    isMainPinHaveClick = false;
+    activateMap();
+    renderPins();
   }
 
-  fillAddressInput(evt);
+  fillAddressInput(evt.pageX, evt.pageY);
 });
