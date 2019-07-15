@@ -119,3 +119,45 @@ mapPinMain.addEventListener('click', function (evt) {
 
   fillAddressInput(evt.pageX, evt.pageY);
 });
+
+// изменяем минимальную стоимость за ночь в зависимости от типа жилья
+var changePrice = function () {
+  var typeValue = document.getElementById('type').value;
+  var price = document.querySelector('#price');
+  if (typeValue === 'bungalo') {
+    price.min = '0';
+    price.placeholder = '0';
+  } else if (typeValue === 'flat') {
+    price.min = '1000';
+    price.placeholder = '1000';
+  } else if (typeValue === 'house') {
+    price.min = '5000';
+    price.placeholder = '5000';
+  } else if (typeValue === 'palace') {
+    price.min = '10000';
+    price.placeholder = '10000';
+  }
+};
+changePrice();
+
+// синхронизируем изменение времени
+var timeSync = function (el1, el2) {
+  if (!el1) {
+    return false;
+  } else {
+    var val = el1.value;
+    var syncWith = document.getElementById(el2);
+    var options = syncWith.getElementsByTagName('option');
+    for (var i = 0; i < options.length; i++) {
+      if (options[i].value === val) {
+        options[i].selected = true;
+      }
+    }
+  }
+  return timeSync();
+};
+
+var selectToSync = document.getElementById('timein');
+selectToSync.onchange = function () {
+  timeSync(this, 'timeout');
+};
