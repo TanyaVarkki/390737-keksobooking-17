@@ -121,43 +121,54 @@ mapPinMain.addEventListener('click', function (evt) {
 });
 
 // изменяем минимальную стоимость за ночь в зависимости от типа жилья
+var typePriceMap = {
+  'bungalo': 0,
+  'flat': 1000,
+  'house': 5000,
+  'palace': 10000
+}
 var changePrice = function () {
   var typeValue = document.getElementById('type').value;
   var price = document.querySelector('#price');
-  if (typeValue === 'bungalo') {
-    price.min = '0';
-    price.placeholder = '0';
-  } else if (typeValue === 'flat') {
-    price.min = '1000';
-    price.placeholder = '1000';
-  } else if (typeValue === 'house') {
-    price.min = '5000';
-    price.placeholder = '5000';
-  } else if (typeValue === 'palace') {
-    price.min = '10000';
-    price.placeholder = '10000';
-  }
-};
-changePrice();
+
+  price.min = typePriceMap[typeValue];
+  price.placeholder = typePriceMap[typeValue];
+}
 
 // синхронизируем изменение времени
-var timeSync = function (el1, el2) {
-  if (!el1) {
-    return false;
-  } else {
-    var val = el1.value;
-    var syncWith = document.getElementById(el2);
-    var options = syncWith.getElementsByTagName('option');
-    for (var i = 0; i < options.length; i++) {
-      if (options[i].value === val) {
-        options[i].selected = true;
-      }
-    }
-  }
-  return timeSync();
-};
+var adFormTimeIn = document.querySelector('#timein'); // поле выбора времени заезда
+var adFormTimeOut = document.querySelector('#timeout'); // поле выбора времени выезда
 
-var selectToSync = document.getElementById('timein');
-selectToSync.onchange = function () {
-  timeSync(this, 'timeout');
-};
+var timeSync = function (select1, select2) {
+    select2.value = select1.value;
+  };
+
+// синхронизируем изменения в полях «Время заезда» и «Время выезда»
+adFormTimeIn.addEventListener('change', function () {
+  timeSync(adFormTimeIn, adFormTimeOut);
+});
+
+adFormTimeOut.addEventListener('change', function () {
+  timeSync(adFormTimeOut, adFormTimeIn);
+});
+
+// var timeSync = function (el1, el2) {
+//   if (!el1) {
+//     return false;
+//   } else {
+//     var val = el1.value;
+//     var syncWith = document.getElementById(el2);
+//     var options = syncWith.getElementsByTagName('option');
+//     for (var i = 0; i < options.length; i++) {
+//       if (options[i].value === val) {
+//         options[i].selected = true;
+//       }
+//     }
+//   }
+//   return timeSync();
+// };
+//
+// var selectToSync = document.getElementById('timein');
+// selectToSync.onchange = function () {
+//   timeSync(this, 'timeout');
+// };
