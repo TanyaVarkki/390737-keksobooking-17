@@ -3,28 +3,7 @@
 (function () {
   // создаем метки похожих объявлений
   var NUMBER_OF_PINS = 8;
-  var TYPE_OF_PLACE = ['palace', 'flat', 'house', 'bungalo'];
   var mapPins = document.querySelector('.map__pins');
-
-  // создаем массив объектов
-  var getObjects = function (quantity) {
-    var objects = [];
-    for (var i = 0; i < quantity; i++) {
-      objects[i] = {
-        author: {
-          avatar: 'img/avatars/user0' + (i + 1) + '.png'
-        },
-        offer: {
-          type: window.utils.getRandomFromInterval(TYPE_OF_PLACE[0], TYPE_OF_PLACE.length - 1)
-        },
-        location: {
-          x: window.utils.getRandomFromInterval(window.data.MIN_X, window.data.MAX_X),
-          y: window.utils.getRandomFromInterval(window.data.MIN_Y, window.data.MAX_Y)
-        }
-      };
-    }
-    return objects;
-  };
 
   var pinTemplate = document.querySelector('#pin')
       .content
@@ -45,20 +24,14 @@
   // функция создает и добавляет фрагмент из объектов
   var renderPin = function (objects) {
     var fragment = document.createDocumentFragment();
-    for (var i = 0; i < objects.length; i++) {
+    for (var i = 0; i < NUMBER_OF_PINS; i++) {
       fragment.appendChild(mapPin(objects[i]));
     }
     mapPins.appendChild(fragment);
   };
 
-  // создаем заданное количество меток
-  var renderPins = function () {
-    var objectsNumber = getObjects(NUMBER_OF_PINS);
-    renderPin(objectsNumber);
-  };
-
   window.pin = {
-    render: renderPins
+    render: renderPin
   };
 
 })();

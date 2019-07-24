@@ -74,13 +74,31 @@
       addressInput.value = pointerX + ',' + pointerY;
     };
 
+    // при успешной обработке запроса
+    var successHandler = function (objects) {
+      window.pin.render(objects);
+    };
+
+    // при ошибке
+    var errorHandler = function (errorMessage) {
+      var node = document.createElement('div');
+      node.style = 'z-index: 100; margin: 0 auto; text-align: center; background-color: red;';
+      node.style.position = 'absolute';
+      node.style.left = 0;
+      node.style.right = 0;
+      node.style.fontSize = '30px';
+
+      node.textContent = errorMessage;
+      document.body.insertAdjacentElement('afterbegin', node);
+    };
+
     var onMouseUp = function (upEvt) {
       upEvt.preventDefault();
       // приводим страницу в активный режим
       if (isMainPinMove) {
         isMainPinMove = false;
         activateMap();
-        window.pin.render();
+        window.backend.load(successHandler, errorHandler);
       }
 
       document.removeEventListener('mousemove', onMouseMove);
