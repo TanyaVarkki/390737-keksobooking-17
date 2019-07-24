@@ -6,11 +6,6 @@
   var TYPE_OF_PLACE = ['palace', 'flat', 'house', 'bungalo'];
   var mapPins = document.querySelector('.map__pins');
 
-  // функция поиска случайного числа в интервале
-  var getRandomFromInterval = function (min, max) {
-    return Math.floor(Math.random() * (max - min + 1) + min);
-  };
-
   // создаем массив объектов
   var getObjects = function (quantity) {
     var objects = [];
@@ -20,11 +15,11 @@
           avatar: 'img/avatars/user0' + (i + 1) + '.png'
         },
         offer: {
-          type: getRandomFromInterval(TYPE_OF_PLACE[0], TYPE_OF_PLACE.length - 1)
+          type: window.utils.getRandomFromInterval(TYPE_OF_PLACE[0], TYPE_OF_PLACE.length - 1)
         },
         location: {
-          x: getRandomFromInterval(window.utils.MIN_X, window.utils.MAX_X),
-          y: getRandomFromInterval(window.utils.MIN_Y, window.utils.MAX_Y)
+          x: window.utils.getRandomFromInterval(window.data.MIN_X, window.data.MAX_X),
+          y: window.utils.getRandomFromInterval(window.data.MIN_Y, window.data.MAX_Y)
         }
       };
     }
@@ -63,7 +58,7 @@
   };
 
   window.pin = {
-    renderPins: renderPins
+    render: renderPins
   };
 
 })();

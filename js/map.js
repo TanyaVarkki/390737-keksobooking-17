@@ -7,15 +7,15 @@
 
   // определяем координаты пина в неактивном режиме
   // переносим данные в инпут адреса
-  var locX = mapPinMain.offsetLeft + Math.ceil(window.utils.MPM_WIDTH / 2);
-  var locY = mapPinMain.offsetTop + Math.ceil(window.utils.MPM_HEIGHT / 2);
+  var locX = mapPinMain.offsetLeft + Math.ceil(window.data.MPM_WIDTH / 2);
+  var locY = mapPinMain.offsetTop + Math.ceil(window.data.MPM_HEIGHT / 2);
   addressInput.value = locX + ',' + locY;
 
   // активизация страницы
   var activateMap = function () {
     map.classList.remove('map--faded');
 
-    window.form.adForm.classList.remove('ad-form--disabled');
+    window.form.ad.classList.remove('ad-form--disabled');
 
     window.form.removeFieldsetDisabled();
   };
@@ -65,12 +65,12 @@
       mapPinMain.style.left = (mapPinMain.offsetLeft - shift.x) + 'px';
 
       // устанавливаем границы для перетаскивания метки по карте
-      mapPinMain.style.top = setBorders(window.utils.MIN_Y, window.utils.MAX_Y, parseInt(mapPinMain.style.top, 10));
-      mapPinMain.style.left = setBorders(window.utils.MIN_X, window.utils.MAX_X, parseInt(mapPinMain.style.left, 10));
+      mapPinMain.style.top = setBorders(window.data.MIN_Y, window.data.MAX_Y, parseInt(mapPinMain.style.top, 10));
+      mapPinMain.style.left = setBorders(window.data.MIN_X, window.data.MAX_X, parseInt(mapPinMain.style.left, 10));
 
       // заполняем адрес инпут в соответствии с новыми координатами и учетом размеров пина
-      var pointerX = (mapPinMain.offsetLeft - shift.x) + Math.floor(window.utils.MPM_WIDTH / 2);
-      var pointerY = (mapPinMain.offsetTop - shift.y) + window.utils.MPM_HEIGHT + window.utils.MPM_POINTER;
+      var pointerX = (mapPinMain.offsetLeft - shift.x) + Math.floor(window.data.MPM_WIDTH / 2);
+      var pointerY = (mapPinMain.offsetTop - shift.y) + window.data.MPM_HEIGHT + window.data.MPM_POINTER;
       addressInput.value = pointerX + ',' + pointerY;
     };
 
@@ -80,7 +80,7 @@
       if (isMainPinMove) {
         isMainPinMove = false;
         activateMap();
-        window.pin.renderPins();
+        window.pin.render();
       }
 
       document.removeEventListener('mousemove', onMouseMove);
