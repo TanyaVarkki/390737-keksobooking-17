@@ -3,33 +3,7 @@
 (function () {
   // создаем метки похожих объявлений
   var NUMBER_OF_PINS = 8;
-  var TYPE_OF_PLACE = ['palace', 'flat', 'house', 'bungalo'];
   var mapPins = document.querySelector('.map__pins');
-
-  // функция поиска случайного числа в интервале
-  var getRandomFromInterval = function (min, max) {
-    return Math.floor(Math.random() * (max - min + 1) + min);
-  };
-
-  // создаем массив объектов
-  var getObjects = function (quantity) {
-    var objects = [];
-    for (var i = 0; i < quantity; i++) {
-      objects[i] = {
-        author: {
-          avatar: 'img/avatars/user0' + (i + 1) + '.png'
-        },
-        offer: {
-          type: getRandomFromInterval(TYPE_OF_PLACE[0], TYPE_OF_PLACE.length - 1)
-        },
-        location: {
-          x: getRandomFromInterval(window.utils.MIN_X, window.utils.MAX_X),
-          y: getRandomFromInterval(window.utils.MIN_Y, window.utils.MAX_Y)
-        }
-      };
-    }
-    return objects;
-  };
 
   var pinTemplate = document.querySelector('#pin')
       .content
@@ -50,20 +24,14 @@
   // функция создает и добавляет фрагмент из объектов
   var renderPin = function (objects) {
     var fragment = document.createDocumentFragment();
-    for (var i = 0; i < objects.length; i++) {
+    for (var i = 0; i < NUMBER_OF_PINS; i++) {
       fragment.appendChild(mapPin(objects[i]));
     }
     mapPins.appendChild(fragment);
   };
 
-  // создаем заданное количество меток
-  var renderPins = function () {
-    var objectsNumber = getObjects(NUMBER_OF_PINS);
-    renderPin(objectsNumber);
-  };
-
   window.pin = {
-    renderPins: renderPins
+    render: renderPin
   };
 
 })();

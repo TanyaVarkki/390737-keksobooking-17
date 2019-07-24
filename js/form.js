@@ -53,7 +53,7 @@
 
   window.form = {
     removeFieldsetDisabled: removeFieldsetDisabled,
-    adForm: adForm
+    ad: adForm
   };
 
 })();
