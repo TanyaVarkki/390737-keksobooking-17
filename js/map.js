@@ -1,4 +1,5 @@
 'use strict';
+// приводим страницу в активный режим передвижением пина
 
 (function () {
   var mapPinMain = document.querySelector('.map__pin--main');
@@ -74,7 +75,8 @@
       addressInput.value = pointerX + ',' + pointerY;
     };
 
-    // при успешной обработке запроса
+    // отрисовка пинов при успешной обработке запроса
+
     var successHandler = function (objects) {
       window.pin.render(objects);
     };
@@ -94,6 +96,7 @@
 
     var onMouseUp = function (upEvt) {
       upEvt.preventDefault();
+
       // приводим страницу в активный режим
       if (isMainPinMove) {
         isMainPinMove = false;

@@ -1,4 +1,5 @@
 'use strict';
+// работа с формой
 
 (function () {
   var adForm = document.querySelector('.ad-form');

@@ -1,5 +1,7 @@
 'use strict';
 (function () {
+  var MP_WIDTH = 50;
+  var MP_HEIGHT = 70;
   var MPM_WIDTH = 65;
   var MPM_HEIGHT = 65;
   var MPM_POINTER = 22;
@@ -13,6 +15,8 @@
     MAX_X: MAX_X,
     MIN_Y: MIN_Y,
     MAX_Y: MAX_Y,
+    MP_WIDTH: MP_WIDTH,
+    MP_HEIGHT: MP_HEIGHT,
     MPM_WIDTH: MPM_WIDTH,
     MPM_HEIGHT: MPM_HEIGHT,
     MPM_POINTER: MPM_POINTER
