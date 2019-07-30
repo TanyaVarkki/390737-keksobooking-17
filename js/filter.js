@@ -1,25 +1,25 @@
 'use strict';
 (function () {
   var housingType = document.querySelector('#housing-type');
+  var currentHousingType = housingType.value;
 
-  // выбираем из массива объявления похожие по типу жилья
-  var filter = function (data) {
-    var filtredData = data.filter(function (it) {
-      return checkHousingType(it);
+  // устанавливаем обработчик на фильтр на по типу жилья
+  housingType.addEventListener('change', function () {
+	   housingTypeFilter();
+	  });
+
+  var housingTypeFilter = function () {
+    currentHousingType = housingType.value;
+    filterOffers();
+  };
+
+  var filterOffers = function () {
+    var filteredData = [];
+    filteredData = window.data.pins.filter(function (it) {
+      return housingType.value === 'any' || it.offer.type === housingType.value;
     });
-    return filtredData;
+    debugger;
+    window.render(filtredData);
   };
-
-  // проверка на случай выбора любого типа жилья и конкретного типа жилья
-  var checkHousingType = function (it) {
-    if (housingType.value === 'any') {
-      return true;
-    }
-    return housingType.value === it.offer.type;
-  };
-
-  window.filter = {
-    housingType: filter
-  }
 
 })();

@@ -78,7 +78,8 @@
     // отрисовка пинов при успешной обработке запроса
 
     var successHandler = function (objects) {
-      window.pin.render(objects);
+      window.data.pins = objects;
+      window.pin.render(window.data.pins);
     };
 
     // при ошибке

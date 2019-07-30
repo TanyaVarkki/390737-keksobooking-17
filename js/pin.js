@@ -2,7 +2,7 @@
 
 (function () {
   // создаем метки похожих объявлений
-  var NUMBER_OF_PINS = 8;
+  var NUMBER_OF_PINS = 5;
   var mapPins = document.querySelector('.map__pins');
 
   var pinTemplate = document.querySelector('#pin')
@@ -23,25 +23,22 @@
 
   // удаление ранее отрисованных пинов
   var deletePin = function () {
-    var newPins = mapPins.querySelectorAll('button:not(.map__pin--main)');
-    for (var i = 0; i < newPins.length; i++) {
-      mapPins.removeChild(newPins[i]);
+    var renderedPins = mapPins.querySelectorAll('button:not(.map__pin--main)');
+    if (renderedPins.length) {
+      for (var i = 0; i < renderedPins.length; i++) {
+        renderedPins.removeChild(renderedPins[i]);
+      }
     }
   };
 
-  var isNewPin = false;
-
   // функция создает и добавляет фрагмент из объектов
   var renderPin = function (objects) {
-    //проверяем были ли отрисованы пины
-    if (isNewPin) {
-      deletePin();
-    };
-
-    isNewPin = true;
+    //если пины были отрисованы, удаляем их
+    deletePin();
     var fragment = document.createDocumentFragment();
-    for (var i = 0; i < NUMBER_OF_PINS; i++) {
-      fragment.appendChild(mapPin(objects[i]));
+    var cuttedPins = window.data.pins.slice(0, NUMBER_OF_PINS);
+    for (var i = 0; i < cuttedPins.length; i++) {
+      fragment.appendChild(mapPin(cuttedPins[i]));
     }
     mapPins.appendChild(fragment);
   };
