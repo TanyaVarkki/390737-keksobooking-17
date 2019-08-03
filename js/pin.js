@@ -26,7 +26,7 @@
     var renderedPins = mapPins.querySelectorAll('button:not(.map__pin--main)');
     if (renderedPins.length) {
       for (var i = 0; i < renderedPins.length; i++) {
-        renderedPins.removeChild(renderedPins[i]);
+        mapPins.removeChild(renderedPins[i]);
       }
     }
   };
@@ -36,7 +36,7 @@
     //если пины были отрисованы, удаляем их
     deletePin();
     var fragment = document.createDocumentFragment();
-    var cuttedPins = window.data.pins.slice(0, NUMBER_OF_PINS);
+    var cuttedPins = objects.slice(0, NUMBER_OF_PINS);
     for (var i = 0; i < cuttedPins.length; i++) {
       fragment.appendChild(mapPin(cuttedPins[i]));
     }
