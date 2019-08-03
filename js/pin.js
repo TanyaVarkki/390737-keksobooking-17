@@ -33,7 +33,7 @@
 
   // функция создает и добавляет фрагмент из объектов
   var renderPin = function (objects) {
-    //если пины были отрисованы, удаляем их
+    // если пины были отрисованы, удаляем их
     deletePin();
     var fragment = document.createDocumentFragment();
     var cuttedPins = objects.slice(0, NUMBER_OF_PINS);
