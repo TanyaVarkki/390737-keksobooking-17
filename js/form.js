@@ -1,6 +1,7 @@
 'use strict';
 
 (function () {
+  // работа с формой
   var adForm = document.querySelector('.ad-form');
   var adFormFieldsets = adForm.querySelectorAll('fieldset');
   var typeValue = document.getElementById('type');

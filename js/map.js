@@ -1,4 +1,5 @@
 'use strict';
+// приводим страницу в активный режим передвижением пина
 
 (function () {
   var mapPinMain = document.querySelector('.map__pin--main');
@@ -74,9 +75,12 @@
       addressInput.value = pointerX + ',' + pointerY;
     };
 
-    // при успешной обработке запроса
+    // отрисовка пинов при успешной обработке запроса
+
     var successHandler = function (objects) {
-      window.pin.render(objects);
+      window.data.pins = objects;
+      window.pin.render(window.data.pins);
+      window.card.set(window.data.pins);
     };
 
     // при ошибке
@@ -94,6 +98,7 @@
 
     var onMouseUp = function (upEvt) {
       upEvt.preventDefault();
+
       // приводим страницу в активный режим
       if (isMainPinMove) {
         isMainPinMove = false;
@@ -108,5 +113,9 @@
     document.addEventListener('mousemove', onMouseMove);
     document.addEventListener('mouseup', onMouseUp);
   });
+
+  window.map = {
+    area: map
+  };
 
 })();
