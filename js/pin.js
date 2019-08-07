@@ -9,11 +9,7 @@
       .content
       .querySelector('button');
 
-  var addListener = function (pinElement, pin) {
-    pinElement.addEventListener("click", function() {
-        window.card.control(pin);
-    })
-  };
+
 
   // создаем элемент с помощью клонирования исходного образца
   var mapPin = function (pin) {
@@ -24,7 +20,13 @@
     pinElement.querySelector('img').src = pin.author.avatar;
     pinElement.querySelector('img').alt = pin.offer.type;
 
-    addListener();
+    var addListener = function (pinElement, pin) {
+      pinElement.addEventListener("click", function() {
+          window.card.control(pin);
+      })
+    };
+
+     debugger;
 
     return pinElement;
   };
