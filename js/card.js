@@ -6,6 +6,7 @@
 	  .content
 	  .querySelector('.map__card');
   var filtersContainer = document.querySelector('.map__filters-container');
+  var popup = document.querySelector('.popup');
 
   var card;
 
@@ -16,11 +17,10 @@
     palace: 'Дворец'
   };
 
-  // открытие карточки удалением класса хидден
-  var openPopup = function () {
-    var popup = document.querySelector('.popup');
-    popup.classList.remove('hidden');
-  };
+  // // открытие карточки удалением класса хидден
+  // var openPopup = function () {
+  //   popup.classList.remove('hidden');
+  // };
 
   // закрытие карточки по нажатию на esc
   var onPopupEscPress = function (evt) {
@@ -28,7 +28,6 @@
   };
 
   var closePopup = function () {
-    var popup = document.querySelector('.popup');
     popup.classList.add('hidden');
     document.removeEventListener('keydown', onPopupEscPress);
   };
@@ -74,13 +73,24 @@
     for (var i = 0; i < cardElement.offer.photos.length; i++) {
       createImgElement(cardPhotos, cardElement.offer.photos[i]);
     }
-    card.classList.add('hidden');
+    // card.classList.add('hidden');
     return card;
+  };
+
+  // удаление ранее отрисованных карточек
+  var deleteCard = function () {
+    var renderedCards = card.querySelectorAll('.popup');
+    if (renderedCards.length) {
+      for (var i = 0; i < renderedCards.length; i++) {
+        card.removeChild(renderedCards[i]);
+      }
+    }
   };
 
   // вставляем карточку в разметку перед элементом filtersContainer
   // закрытие карточки по нажатию на эскейп и на крестик
   var cardControl = function (elements) {
+    deleteCard();
     renderCard(elements);
     window.map.area.insertBefore(card, filtersContainer);
 
@@ -89,21 +99,22 @@
       closePopup();
     });
     document.addEventListener('keydown', onPopupEscPress);
+    // openPopup();
   };
 
-  // показываем карточку при клике на пин
-  var setCard = function (pins) {
-    var selectPins = document.querySelectorAll('.map__pin:not(.map__pin--main)');
-    for (var i = 0; i < selectPins.length; i++) {
-      selectPins[i].addEventListener('click', function () {
-        cardControl(pins[i]);
-        openPopup();
-      });
-    }
-  };
+  // // показываем карточку при клике на пин
+  // var setCard = function (pins) {
+  //   var selectPins = document.querySelectorAll('.map__pin:not(.map__pin--main)');
+  //   for (var i = 0; i < selectPins.length; i++) {
+  //     selectPins[i].addEventListener('click', function () {
+  //       cardControl(pins[i]);
+  //       openPopup();
+  //     });
+  //   }
+  // };
 
   window.card = {
-    set: setCard
+    control: cardControl
   };
 
 })();
